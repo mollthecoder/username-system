@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Page Title</title>
+	</head>
+	<body>
+		    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
+    <script>
+    alert("This works by encrypting the username with the key of the password. It then compares the decrypted string with the unencrypted version of the username. Version 1.0")
+    function getUsernames(version, username){
+        if(version="latest"){
+            version=1.0
+        }
+        if(version=1.0&&username==="TheOneAndOnlyUser"){
+            return "U2FsdGVkX19ECBQgFMVkQ1wQyFiDXeAxJN0ctgMYF2dyVWtLC9U2hbTeFvkUfm9C;format1";
+        }else{
+            return null;
+        }
+    }
+    function tryToRun(username, password){
+        var usernamesData = getUsernames("latest", username);
+        var usernameValid;
+        try{
+        if(usernamesData.split(";")[1]==="format1"){
+        usernameValid = usernamesData.split(";")[0];
+        }else{
+        usernameValid = null;
+        }
+        }catch(e){
+            alert("Invalid username.")
+        }
+        var decrypted = CryptoJS.AES.decrypt(usernameValid, password);
+        var plainString = decrypted.toString(CryptoJS.enc.Utf8);
+        if(plainString===username){
+            alert("Signed in susessfully!")
+        }else{
+            alert("Wrong password!")
+        }
+    }
+    alert("Username: TheOneAndOnlyUser, Password: password1234")
+    var A1 = prompt("Enter the username.")
+    var A2 = prompt("Enter the password.")
+    tryToRun(A1, A2);
+    </script>
+	</body>
+</html>
